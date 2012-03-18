@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		098025B7151539DB00DC9565 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 098025B6151539DB00DC9565 /* main.c */; };
 		098025B9151539DB00DC9565 /* QuickSort.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 098025B8151539DB00DC9565 /* QuickSort.1 */; };
+		098025F71515461500DC9565 /* libmpi_cxx.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 098025D615153EEE00DC9565 /* libmpi_cxx.dylib */; };
+		098025F81515461700DC9565 /* libmpi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 098025D515153EEE00DC9565 /* libmpi.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,10 @@
 		098025B2151539DB00DC9565 /* QuickSort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QuickSort; sourceTree = BUILT_PRODUCTS_DIR; };
 		098025B6151539DB00DC9565 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		098025B8151539DB00DC9565 /* QuickSort.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = QuickSort.1; sourceTree = "<group>"; };
+		098025CE15153E1700DC9565 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		098025D015153E1700DC9565 /* TEST.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = TEST.1; sourceTree = "<group>"; };
+		098025D515153EEE00DC9565 /* libmpi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpi.dylib; path = usr/local/lib/libmpi.dylib; sourceTree = SDKROOT; };
+		098025D615153EEE00DC9565 /* libmpi_cxx.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpi_cxx.dylib; path = usr/local/lib/libmpi_cxx.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				098025F71515461500DC9565 /* libmpi_cxx.dylib in Frameworks */,
+				098025F81515461700DC9565 /* libmpi.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +52,10 @@
 		098025A7151539DB00DC9565 = {
 			isa = PBXGroup;
 			children = (
+				098025D515153EEE00DC9565 /* libmpi.dylib */,
+				098025D615153EEE00DC9565 /* libmpi_cxx.dylib */,
 				098025B5151539DB00DC9565 /* QuickSort */,
+				098025CD15153E1700DC9565 /* TEST */,
 				098025B3151539DB00DC9565 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +75,15 @@
 				098025B8151539DB00DC9565 /* QuickSort.1 */,
 			);
 			path = QuickSort;
+			sourceTree = "<group>";
+		};
+		098025CD15153E1700DC9565 /* TEST */ = {
+			isa = PBXGroup;
+			children = (
+				098025CE15153E1700DC9565 /* main.c */,
+				098025D015153E1700DC9565 /* TEST.1 */,
+			);
+			path = TEST;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +191,19 @@
 		098025BD151539DB00DC9565 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/QuickSort\"",
+					/usr/local/lib/,
+				);
+				MACH_O_TYPE = mh_execute;
+				OTHER_LDFLAGS = (
+					"-lmpi",
+					"-lopen-rte",
+					"-lopen-pal",
+					"-lutil",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -178,6 +211,19 @@
 		098025BE151539DB00DC9565 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/QuickSort\"",
+					/usr/local/lib/,
+				);
+				MACH_O_TYPE = mh_execute;
+				OTHER_LDFLAGS = (
+					"-lmpi",
+					"-lopen-rte",
+					"-lopen-pal",
+					"-lutil",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -201,6 +247,7 @@
 				098025BE151539DB00DC9565 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
