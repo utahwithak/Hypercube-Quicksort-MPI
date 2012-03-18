@@ -11,12 +11,11 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define SIZE 65000000
+#define SIZE 64
 
 double When();
 int sort(const void* a, const void*x);
 int getPivot(int* array, int size);
-
 
 
 int main(int argc, char * argv[])
@@ -34,6 +33,7 @@ int main(int argc, char * argv[])
     
     MPI_Comm_size(MPI_COMM_WORLD, &nproc);
     MPI_Comm_rank(MPI_COMM_WORLD, &iproc);
+    
     int mySize=SIZE/nproc;
     
     //my values
@@ -43,13 +43,11 @@ int main(int argc, char * argv[])
     //for joining the two and
     int* tmp = (int*)malloc( SIZE * sizeof(int));
     
-    /*
-    for (i=0; i<mySize; i++) 
-        vals[i]=rand();
-*/
     //sort our values
     qsort(vals, mySize, sizeof(int), sort);
-
+    
+    for (i=0; i<mySize; i++) 
+        vals[i]=arc4random();
     /*Create the communicator for use throughout*/
     MPI_Comm newcomm;
     MPI_Comm_split(MPI_COMM_WORLD, 1, iproc, &newcomm);    
@@ -141,17 +139,6 @@ int main(int argc, char * argv[])
         }
         //fprintf(stderr,"%d:my size:%i,\n",iproc, mySize);
         qsort(vals, mySize, sizeof(int), sort);
-        /*for (i=0; i<mySize; i++) {
-            fprintf(stderr,"%d:%i,\t",iproc, vals[i]);
-            
-        }      
-        fprintf(stderr,"\n");*/
-        
-        
-        
-        
-        
-        
         
         //reset the size of the group
         MPI_Comm_split(newcomm, iproc < nproc/2 , iproc, &newcomm);
@@ -174,7 +161,7 @@ int main(int argc, char * argv[])
 }
 
 int getPivot(int* array, int size){
-    //return array[rand()%size];
+    //return array[arc4random()%size];
     return array[size/2];
 }
 
