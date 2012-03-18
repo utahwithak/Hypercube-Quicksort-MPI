@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
     qsort(vals, mySize, sizeof(int), sort);
     
     for (i=0; i<mySize; i++) 
-        vals[i]=arc4random();
+        vals[i]=random();
     /*Create the communicator for use throughout*/
     MPI_Comm newcomm;
     MPI_Comm_split(MPI_COMM_WORLD, 1, iproc, &newcomm);    
