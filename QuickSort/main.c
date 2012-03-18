@@ -46,7 +46,7 @@ int main(int argc, char * argv[])
     
     
     for (i=0; i<mySize; i++) 
-        vals[i]=arc4random();
+        vals[i]=rand();
     
     
     
@@ -179,7 +179,7 @@ int main(int argc, char * argv[])
 }
 
 int getPivot(int* array, int size){
-    return array[arc4random()%size];
+    return array[rand()%size];
     //return array[size/2];
 }
 
