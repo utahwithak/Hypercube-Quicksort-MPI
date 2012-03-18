@@ -43,10 +43,10 @@ int main(int argc, char * argv[])
     //for joining the two and
     int* tmp = (int*)malloc( SIZE * sizeof(int));
     
-    
+    /*
     for (i=0; i<mySize; i++) 
         vals[i]=rand();
-
+*/
     //sort our values
     qsort(vals, mySize, sizeof(int), sort);
 
