@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define SIZE 64
+#define SIZE 640000
 
 double When();
 int sort(const void* a, const void*x);
