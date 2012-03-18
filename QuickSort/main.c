@@ -174,8 +174,8 @@ int main(int argc, char * argv[])
 }
 
 int getPivot(int* array, int size){
-    return array[rand()%size];
-    //return array[size/2];
+    //return array[rand()%size];
+    return array[size/2];
 }
 
 int sort(const void *x, const void *y) {
