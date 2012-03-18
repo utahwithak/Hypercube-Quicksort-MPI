@@ -21,18 +21,17 @@ int getPivot(int* array, int size);
 
 int main(int argc, char * argv[])
 {
-   
     int nproc, iproc;
     MPI_Status status;
-
-    
     MPI_Init(&argc, &argv);
 
     int i = 0;
     double starttime;
+    /*All for the sending / recieving */
     int* pivot=(int*)malloc(sizeof(int));
     int* send=(int*)malloc(sizeof(int));
     int* recv=(int*)malloc(sizeof(int));
+    
     MPI_Comm_size(MPI_COMM_WORLD, &nproc);
     MPI_Comm_rank(MPI_COMM_WORLD, &iproc);
     int mySize=SIZE/nproc;
@@ -47,29 +46,25 @@ int main(int argc, char * argv[])
     
     for (i=0; i<mySize; i++) 
         vals[i]=rand();
-    
-    
-    
-    //sort our valus
+
+    //sort our values
     qsort(vals, mySize, sizeof(int), sort);
- 
-    
-    
-    
+
+    /*Create the communicator for use throughout*/
     MPI_Comm newcomm;
     MPI_Comm_split(MPI_COMM_WORLD, 1, iproc, &newcomm);    
-    
-   
+
     int groupSize=nproc;
     starttime = When();
 
     while (groupSize>1) {
+        /* Get the new rank/size */
         MPI_Comm_size(newcomm, &nproc);
         MPI_Comm_rank(newcomm, &iproc);        
         //Find the Pivot
         *pivot=getPivot(vals, mySize);
         
-        if(0){
+        if(1){
             //send it out among the group
             MPI_Bcast(pivot, 1, MPI_INT, 0, newcomm);
         }
