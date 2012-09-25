@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
     qsort(vals, mySize, sizeof(int), sort);
     
     for (i=0; i<mySize; i++) 
-        vals[i]=random();
+        vals[i]=arc4random();
     /*Create the communicator for use throughout*/
     MPI_Comm newcomm;
     MPI_Comm_split(MPI_COMM_WORLD, 1, iproc, &newcomm);    
@@ -67,7 +67,28 @@ int main(int argc, char * argv[])
             MPI_Bcast(pivot, 1, MPI_INT, 0, newcomm);
         }
         else{
-            //median of all in 
+            //median of all in group
+            if(iproc==0){
+                //we recieve them all
+                for (i=1; i<nproc; i++) {
+                    MPI_Recv(recv, 1, MPI_INT, i, 0, newcomm, &status);
+                    tmp[i]=*recv;
+                }
+                tmp[0]=*pivot;
+                qsort(tmp, nproc, sizeof(int), sort);
+                *pivot=tmp[(nproc/2)];
+                //fprintf(stderr, "pivot=%i\n",*pivot);
+                for (i=1; i<nproc; i++) {
+                    MPI_Send(pivot, 1, MPI_INT, i, 0, newcomm);
+                }
+
+            }
+            else{
+                //we all send it to zero and let it decide.
+                MPI_Send(pivot, 1, MPI_INT, 0, 0, newcomm);
+                MPI_Recv(pivot, 1, MPI_INT, 0, 0, newcomm, &status);
+                
+            }
             
         }
         //calculate how many we will send
@@ -84,7 +105,6 @@ int main(int argc, char * argv[])
                 if (vals[i] <= *pivot) {
                     tmp[*send]=vals[i];
                     (*send)++;
-                    
                 }
             }
         }
@@ -142,7 +162,7 @@ int main(int argc, char * argv[])
         
         //reset the size of the group
         MPI_Comm_split(newcomm, iproc < nproc/2 , iproc, &newcomm);
-        groupSize/=2;
+        groupSize /= 2;
     }
     
     MPI_Comm_rank(MPI_COMM_WORLD, &iproc);
@@ -161,8 +181,8 @@ int main(int argc, char * argv[])
 }
 
 int getPivot(int* array, int size){
-    //return array[arc4random()%size];
-    return array[size/2];
+    return array[arc4random()%size];
+    //return array[size/2];
 }
 
 int sort(const void *x, const void *y) {
